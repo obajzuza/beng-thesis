@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Wyszukiwarka</string>
+    <string name="search">Szukaj</string>
+    <string name="enter_product_name">Szukaj produktu</string>
+    <string name="title_activity_show_map">ShowMapActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+<!--    Strings used in greeting screen-->
+    <string name="hello_first_fragment">Witaj w aplikacji!</string>
+    <string name="instruction">Aby rozpocząć wyszukiwanie i lokalizację produktu, skorzystaj z lupki u góry ekranu.</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+<!--    Strings used in connectivity error screen-->
+    <string name="something_went_wrong">Coś poszło nie tak…</string>
+    <string name="connectivity_error_instruction">Upewnij się, że urządzenie jest połączone z siecią WiFi. Jeśli problem powtarza się, spróbuj ponownie później.</string>
+
+<!--    Strings used in no results found screen-->
+    <string name="no_results_found">Nie znaleziono szukanego produktu</string>
+    <string name="no_results_found_instruction">Upewnij się, że wpisana nazwa jest poprawna.</string>
+</resources>
