@@ -14,7 +14,7 @@ public class NoResultsFoundFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_connectivity_error, container, false);
+        View v = inflater.inflate(R.layout.fragment_no_results_found, container, false);
         return v;
     }
 }

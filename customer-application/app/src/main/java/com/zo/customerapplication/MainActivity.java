@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onResponse(JSONArray response) {
                             Log.println(Log.INFO, "Request", "---------------------------- SUCCESS ------------------------------");
                             Log.println(Log.INFO, "Request", "Response: " + response.toString());
-                            if (response.length() > 2) {
+                            if (response.length() > 0) {
                                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                                 ft.replace(R.id.mainPlaceholder, new SearchResultFragment(response));
                                 ft.commit();
@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            ft.replace(R.id.mainPlaceholder, new ConnectivityErrorFragment());
-                            ft.commit();
+//                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                            ft.replace(R.id.mainPlaceholder, new ConnectivityErrorFragment());
+//                            ft.commit();
                             Log.println(Log.ERROR, "Request Error", error.getMessage());
                             error.printStackTrace();
                         }

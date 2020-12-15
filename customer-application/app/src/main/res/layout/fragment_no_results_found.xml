@@ -7,12 +7,16 @@
     tools:context=".NoResultsFoundFragment">
 
     <TextView
-        android:id="@+id/textview_greeting"
+        android:id="@+id/textview_no_results_found"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="@string/no_results_found"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,9 +25,9 @@
         android:id="@+id/textView4"
         android:layout_width="256dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/no_results_found_instruction"
-        app:layout_constraintEnd_toEndOf="@id/textview_greeting"
-        app:layout_constraintTop_toBottomOf="@id/textview_greeting" />
+        app:layout_constraintEnd_toEndOf="@id/textview_no_results_found"
+        app:layout_constraintTop_toBottomOf="@id/textview_no_results_found" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,7 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
         final ProductData myProductData = listData.get(position);
         viewHolder.productNameTV.setText(myProductData.getName());
         viewHolder.manufacturerTV.setText(myProductData.getManufacturer());
-        viewHolder.amountTV.setText(Integer.toString(myProductData.getId()));
+        viewHolder.amountTV.setText(Integer.toString(myProductData.getAmount()));
 //        viewHolder.shelfTV.setText(myProductData.getShelves().toString());
         if (myProductData.getShelves().size() > 1 ) {
             viewHolder.shelfTV.setText(myProductData.getShelves().get(0).toString() + "+");
