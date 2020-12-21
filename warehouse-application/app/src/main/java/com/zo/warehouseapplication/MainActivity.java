@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +35,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDecoded(@NonNull Result result) {
                 Log.println(Log.DEBUG, "SCAN", "decoded value: " + result.getText() + "\nof class: "+ result.getText().getClass());
-                //TODO on decode
+                beginScanningProducts(result.getText());
+//                Intent intent = new Intent(MainActivity.this, ScanProduct.class);
+//                intent.putExtra("result", result.getText());
+//                startActivity(intent);
             }
         });
         scannerView.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void beginScanningProducts(String shelfCode) {
+        Intent intent = new Intent(MainActivity.this, ScanProduct.class);
+        intent.putExtra("shelf", shelfCode);
+        startActivity(intent);
     }
 
     @Override

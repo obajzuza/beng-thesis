@@ -28,6 +28,7 @@ import java.util.Random;
 
 public class SearchResultFragment extends Fragment {
     List<ProductData> list;
+    ProductsListAdapter adapter;
 
     public SearchResultFragment(JSONArray response) {
         Log.println(Log.DEBUG, "SearchResultFragment", "in search result fragment");
@@ -66,7 +67,8 @@ public class SearchResultFragment extends Fragment {
                                                     break;
                                                 }
                                             }
-                                        } } catch (Exception e) {Log.println(Log.ERROR, "JSON", e.getMessage()); e.printStackTrace();}
+                                        }
+                                        adapter.notifyDataSetChanged();} catch (Exception e) {Log.println(Log.ERROR, "JSON", e.getMessage()); e.printStackTrace();}
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
@@ -98,7 +100,7 @@ public class SearchResultFragment extends Fragment {
     ) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search_result, container, false);
-        ProductsListAdapter adapter = new ProductsListAdapter(list);
+        adapter = new ProductsListAdapter(list);
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.resultsRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
