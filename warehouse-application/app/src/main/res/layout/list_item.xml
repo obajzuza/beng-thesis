@@ -61,6 +61,7 @@
 
             android:background="?android:attr/listDivider" />
 
+
         <ImageView
             android:id="@+id/deleteIV"
             android:layout_width="wrap_content"

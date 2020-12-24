@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .router import router
+from products_api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/products/<int:ppk>/<int:spk>/', views.ProductsOnShelvesUpdateViewset.as_view()),
 ]

@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // set-up needed for connection to API
-        cache = new DiskBasedCache(getCacheDir(), 1024-1024);
+        cache = new DiskBasedCache(getCacheDir(), 1024);
         network = new BasicNetwork(new HurlStack()); // setting up the network to use HttpURLConnection
         queue = Volley.newRequestQueue(this);
         try {

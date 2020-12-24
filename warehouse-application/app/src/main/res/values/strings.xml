@@ -14,4 +14,7 @@
     <string name="error">Coś poszło nie tak…</string>
     <string name="instruction_error">Upewnij się, że masz połączenie z siecią i spróbuj ponownie.</string>
     <string name="no_such_product">Produktu nie ma w bazie danych, skontaktuj się z administratorem.</string>
+
+    <string name="success">Sukces!</string>
+    <string name="instruction_success">Pomyślnie dodano produkty.</string>
 </resources>
