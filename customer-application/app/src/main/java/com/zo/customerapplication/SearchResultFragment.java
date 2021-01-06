@@ -40,9 +40,15 @@ public class SearchResultFragment extends Fragment {
                 ArrayList<Integer> shelvesList = new ArrayList<Integer>();
                 final ArrayList<Integer> amounts = new ArrayList<Integer>();
 
+                Log.println(Log.DEBUG, "value", "value of amounts: " + amounts.toString());
+
+
                 if(shelves != null) {
                     for (int j = 0; j < shelves.length(); j++) {
-                        shelvesList.add(shelves.getInt(j));
+//                        shelvesList.add(shelves.getInt(j));
+                        list.add(new ProductData(json.getInt("id"), json.getString("product_name"),
+                                json.getString("manufacturer"),
+                                0, shelves.getInt(j)));
                         MainActivity.queue.start();
                         Log.println(Log.ERROR, "JSON", "connecting to url " + MainActivity.restEndpoint + "products-on-shelves/?shelf=" + shelves.getInt(j) +"&product=" + json.getInt("id"));
                         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
@@ -60,15 +66,18 @@ public class SearchResultFragment extends Fragment {
                                             Iterator<ProductData> iterator = list.iterator();
                                             while (iterator.hasNext()) {
                                                 ProductData product = iterator.next();
-                                                if (product.getId() == response.getJSONObject(0).getInt("id")) {
+                                                if (product.getId() == response.getJSONObject(0).getInt("product") &&
+                                                        product.getShelf() == response.getJSONObject(0).getInt("shelf")) {
                                                     Log.println(Log.DEBUG, "product before: ", "product: id=" + product.getId() +" amount="+ product.getAmount());
-                                                    product.setAmount(product.getAmount() + response.getJSONObject(0).getInt("amount"));
+                                                    product.setAmount(response.getJSONObject(0).getInt("amount"));
+//                                                    product.setShelf(response.getJSONObject(0).getInt("shelf"));
                                                     Log.println(Log.DEBUG, "product after", "product: id=" + product.getId() +" amount="+ product.getAmount());
-                                                    break;
+                                                    adapter.notifyDataSetChanged();
+//                                                    break;
                                                 }
                                             }
                                         }
-                                        adapter.notifyDataSetChanged();} catch (Exception e) {Log.println(Log.ERROR, "JSON", e.getMessage()); e.printStackTrace();}
+                                        } catch (Exception e) {Log.println(Log.ERROR, "JSON", e.getMessage()); e.printStackTrace();}
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
@@ -81,16 +90,11 @@ public class SearchResultFragment extends Fragment {
                     }
                 }
 
-               Log.println(Log.DEBUG, "value", "value of amounts: " + amounts.toString());
-                list.add(new ProductData(json.getInt("id"), json.getString("product_name"),
-                        json.getString("manufacturer"),
-                        i * 12, shelvesList));
             }
         } catch(Exception e) {
             Log.println(Log.ERROR, "JSON", "Error: " + e.getMessage());
             e.printStackTrace();
         }
-        this.list = list;
     }
 
     @Override

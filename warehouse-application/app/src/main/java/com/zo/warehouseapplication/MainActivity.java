@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void beginScanningProducts(String shelfCode) {
-        Intent intent = new Intent(MainActivity.this, ScanProduct.class);
+        Intent intent = new Intent(MainActivity.this, ScanProductActivity.class);
         intent.putExtra("shelf", shelfCode);
         startActivity(intent);
     }

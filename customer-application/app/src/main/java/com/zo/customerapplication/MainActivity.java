@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            SearchRecentSuggestions searchRecentSuggestions = new SearchRecentSuggestions(this, ProductsSuggestions.AUTHORITY, ProductsSuggestions.MODE);
-            searchRecentSuggestions.saveRecentQuery(query, null);
 
             String url = restEndpoint.toString();
             queue.start();
@@ -114,9 +112,4 @@ public class MainActivity extends AppCompatActivity {
         searchView.setSubmitButtonEnabled(true);
         return super.onCreateOptionsMenu(menu);
     }
-//    //starts SearchingActivity
-//    public void startSearching(View view) {
-//        Intent intent = new Intent(this, SearchingActivity.class);
-//        startActivity(intent);
-//    }
 }

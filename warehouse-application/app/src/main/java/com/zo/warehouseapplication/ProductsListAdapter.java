@@ -1,9 +1,10 @@
-package com.zo.customerapplication;
+package com.zo.warehouseapplication;
 
-import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem = layoutInflater.inflate(R.layout.list_item_product, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.list_item, parent, false);
         return new ViewHolder(listItem);
     }
 
@@ -33,17 +34,20 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
         viewHolder.productNameTV.setText(myProductData.getName());
         viewHolder.manufacturerTV.setText(myProductData.getManufacturer());
         viewHolder.amountTV.setText(Integer.toString(myProductData.getAmount()));
-//        viewHolder.shelfTV.setText(myProductData.getShelves().toString());
-        viewHolder.shelfTV.setText(Integer.toString(myProductData.getShelf()));
+        Log.println(Log.DEBUG, "product", "name = " + myProductData.getName());
 
-        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.deleteIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MapActivity.class);
-                intent.putExtra("shelf", viewHolder.shelfTV.getText());
-                intent.putExtra("product", viewHolder.productNameTV.getText());
-//                intent.putExtra("manufacturer", viewHolder.manufacturerTV.getText());
-                view.getContext().startActivity(intent);
+                for (ProductData data: listData) {
+                    if(data.getName() == viewHolder.productNameTV.getText() &&
+                        data.getManufacturer() == viewHolder.manufacturerTV.getText() &&
+                        data.getAmount() == Integer.parseInt(viewHolder.amountTV.getText().toString())) {
+                        listData.remove(data);
+                        notifyDataSetChanged();
+                        break;
+                    }
+                }
             }
         });
     }
@@ -55,18 +59,16 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
         public TextView productNameTV;
         public TextView manufacturerTV;
         public TextView amountTV;
-        public TextView shelfTV;
+        public ImageView deleteIV;
 //        public RelativeLayout relativeLayout;
-        public LinearLayout linearLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
-//            this.relativeLayout = (RelativeLayout) itemView.findViewById(R.id.resultsRecyclerView);
+            Log.println(Log.DEBUG, "product", "vieholder constructor");
             this.productNameTV = (TextView) itemView.findViewById(R.id.productNameTextView);
             this.manufacturerTV = (TextView) itemView.findViewById(R.id.manufacturerTextView);
             this.amountTV = (TextView) itemView.findViewById(R.id.amountTextView);
-            this.shelfTV = (TextView) itemView.findViewById(R.id.shelfTextView);
+            this.deleteIV = (ImageView) itemView.findViewById(R.id.deleteIV);
         }
 
     }

@@ -16,14 +16,6 @@ class Product(models.Model):
     manufacturer = models.CharField(max_length=100)
     shelves = models.ManyToManyField(Shelf, through='ProductsOnShelves')
 
-    # Create
-
-    # Retrieve
-
-    # Update
-
-    # Delete
-
 class ProductsOnShelves(models.Model):
     # class modelling a database table containing information about the products being stored on certain shelves and the amount of them in the location
     shelf = models.ForeignKey(Shelf, on_delete=models.CASCADE)

@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/instruction"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/textview_greeting"
         app:layout_constraintTop_toBottomOf="@id/textview_greeting" />
 

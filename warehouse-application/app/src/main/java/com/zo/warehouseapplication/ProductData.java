@@ -1,7 +1,6 @@
 package com.zo.warehouseapplication;
 
 public class ProductData {
-    //    TODO create a ProductData class containing name, manufacturer, id, amount, shelves OR boolean flag if getExtra.shelf exists in shelves
     private String name;
     private String manufacturer;
     private int id;

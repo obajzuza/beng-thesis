@@ -8,14 +8,14 @@ public class ProductData {
     private String name;
     private String manufacturer;
     private int amount;
-    private List<Integer> shelves;
+    private int shelf;
 
-    public ProductData(int id, String name, String manufacturer, int amount, ArrayList<Integer> shelves) {
+    public ProductData(int id, String name, String manufacturer, int amount, int shelf) {
         this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;
         this.amount = amount;
-        this.shelves = shelves;
+        this.shelf = shelf;
     }
 
     public int getId() {
@@ -50,11 +50,11 @@ public class ProductData {
         this.amount = amount;
     }
 
-    public List<Integer> getShelves() {
-        return shelves;
+    public int getShelf() {
+        return shelf;
     }
 
-    public void setShelves(List<Integer> shelves) {
-        this.shelves = shelves;
+    public void setShelf(int shelf) {
+        this.shelf = shelf;
     }
 }
