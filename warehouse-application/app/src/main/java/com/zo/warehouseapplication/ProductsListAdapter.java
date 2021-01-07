@@ -17,8 +17,8 @@ import java.util.List;
 public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapter.ViewHolder> {
     private ArrayList<ProductData> listData;
 
-    public ProductsListAdapter(List<ProductData> data) {
-        this.listData = new ArrayList<>(data);
+    public ProductsListAdapter(ArrayList<ProductData> data) {
+        this.listData = data;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            Log.println(Log.DEBUG, "product", "vieholder constructor");
+            Log.println(Log.DEBUG, "product", "viewholder constructor");
             this.productNameTV = (TextView) itemView.findViewById(R.id.productNameTextView);
             this.manufacturerTV = (TextView) itemView.findViewById(R.id.manufacturerTextView);
             this.amountTV = (TextView) itemView.findViewById(R.id.amountTextView);

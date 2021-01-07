@@ -1,8 +1,7 @@
-from rest_framework import viewsets, generics, status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import viewsets
 from . import models
 from . import serializers
+
 
 class ProductViewset(viewsets.ModelViewSet):
     queryset = models.Product.objects.all()
@@ -13,7 +12,6 @@ class ProductViewset(viewsets.ModelViewSet):
         return []
 
     def get_queryset(self):
-        # name = generics.request.query_params.get('name')
         queryset = models.Product.objects.all()
         name = self.request.query_params.get('name', None)
         code = self.request.query_params.get('code', None)
@@ -23,9 +21,11 @@ class ProductViewset(viewsets.ModelViewSet):
             queryset = queryset.filter(code__contains=code)
         return queryset
 
+
 class ShelfViewset(viewsets.ModelViewSet):
     queryset = models.Shelf.objects.all()
     serializer_class = serializers.ShelfSerializer
+
 
 class ProductsOnShelvesViewset(viewsets.ModelViewSet):
     queryset = models.ProductsOnShelves.objects.all()

@@ -68,18 +68,16 @@ public class ScanProductActivity extends AppCompatActivity {
     private ArrayList<ProductData> productDataList;
     private ProductsListAdapter adapter;
 
+    public int okResponsesCounter;
+    public int errorResponsesCounter;
+    public int elementsNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_product);
         productDataList = new ArrayList<ProductData>();
         shelfCode = Integer.valueOf(getIntent().getExtras().getString("shelf"));
-
-        adapter = new ProductsListAdapter(productDataList);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listToAddRV);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
 
         // network initialization
         cache = new DiskBasedCache(getCacheDir(), 1024);
@@ -107,7 +105,13 @@ public class ScanProductActivity extends AppCompatActivity {
         amountET = (EditText) findViewById(R.id.amountET);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         acceptBtn = (Button) findViewById(R.id.acceptBtn);
-        deleteIV = (ImageView) findViewById(R.id.deleteIV);
+//        deleteIV = (ImageView) findViewById(R.id.deleteIV);
+
+        adapter = new ProductsListAdapter(productDataList);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listToAddRV);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
 
         // setting up scanner
         codeScanner = new CodeScanner(this, scannerView);
@@ -189,38 +193,49 @@ public class ScanProductActivity extends AppCompatActivity {
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                queue.start();
                 try {
                     for (ProductData data : productDataList) {
+                        elementsNumber++;
                         JSONObject json = new JSONObject();
-                        json.put("id", data.getId());
+                        json.put("product", data.getId());
                         json.put("shelf", shelfCode);
                         json.put("amount", data.getAmount());
+                        Log.println(Log.DEBUG, "json", "elements number " +  elementsNumber + " ok number " + okResponsesCounter + " error number " + errorResponsesCounter);
                         if (data.isExistsInShelf()) {
                             // PATCH
+                            Log.println(Log.DEBUG, "json", "PATCH connecting with " + restEndpoint.toString() + "products/" + data.getId() + "/" + shelfCode + "/");
                             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, restEndpoint.toString() + "products/" + data.getId() + "/" + shelfCode + "/", json, new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-
+                                    Log.println(Log.DEBUG, "json", "1");
+                                    okResponsesCounter++;
                                 }
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-
+                                    Intent failureIntent = new Intent(ScanProductActivity.this, FailActivity.class);
+                                    startActivity(failureIntent);
                                 }
                             });
+                            queue.add(request);
                         } else {
                             // PUT
+                            Log.println(Log.DEBUG, "json", "PUT connecting with " + restEndpoint.toString() + "products/" + data.getId() + "/" + shelfCode + "/");
                             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, restEndpoint.toString() + "products/" + data.getId() + "/" + shelfCode + "/", json, new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-
+                                    Log.println(Log.DEBUG, "json", "3");
+                                    okResponsesCounter++;
                                 }
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-
+                                    Intent failureIntent = new Intent(ScanProductActivity.this, FailActivity.class);
+                                    startActivity(failureIntent);
                                 }
                             });
+                            queue.add(request);
                         }
                     }
                 } catch (Exception e) {
@@ -228,37 +243,13 @@ public class ScanProductActivity extends AppCompatActivity {
                     startActivity(failureIntent);
                     e.printStackTrace();
                 }
-                Intent successIntent = new Intent();
-                startActivity(successIntent);
-                //TODO ??
+
+                Log.println(Log.DEBUG, "json", "elements number " +  elementsNumber + " ok number " + okResponsesCounter + " error number " + errorResponsesCounter);
+
                 finish();
             }
         });
-
-//        deleteIV.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String productToDeleteName = getParent().findViewById(R.id.productNameTextView).toString();
-//                for (ProductData data: productDataList) {
-//                    if(data.getName().equals(productToDeleteName)) {
-//                        productDataList.remove(data);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                }
-//            }
-//        });
     }
-
-//    @Override View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View v = inflater.inflate(R.layout.activity_scan_product, container, false);
-//        adapter = new ProductsListAdapter(productDataList);
-//        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.listToAddRV);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-//        recyclerView.setAdapter(adapter);
-//
-//        return v;
-//    }
 
     protected void setProductCodeTV(String code) {
         Toast.makeText(ScanProductActivity.this, code, Toast.LENGTH_LONG).show();
