@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WarehouseApplication</string>
+    <string name="app_name">Aplikacja pracownika</string>
 
     <!--    main window QR scanner strings -->
     <string name="instruction_qr">Aby rozpocząć zeskanuj kod regału.</string>
@@ -15,6 +15,7 @@
     <string name="instruction_error">Upewnij się, że masz połączenie z siecią i spróbuj ponownie.</string>
     <string name="no_such_product">Produktu nie ma w bazie danych, skontaktuj się z administratorem.</string>
 
+<!--    success activity strings-->
     <string name="success">Sukces!</string>
     <string name="instruction_success">Pomyślnie dodano produkty.</string>
 

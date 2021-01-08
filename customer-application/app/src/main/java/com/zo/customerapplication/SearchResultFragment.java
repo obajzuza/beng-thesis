@@ -6,10 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,56 +21,37 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 public class SearchResultFragment extends Fragment {
     List<ProductData> list;
     ProductsListAdapter adapter;
 
     public SearchResultFragment(JSONArray response) {
-        Log.println(Log.DEBUG, "SearchResultFragment", "in search result fragment");
         list = new ArrayList<ProductData>();
         try {
             for (int i = 0; i < response.length(); i++) {
                 JSONObject json = response.getJSONObject(i);
                 JSONArray shelves = json.getJSONArray("shelves");
-                ArrayList<Integer> shelvesList = new ArrayList<Integer>();
-                final ArrayList<Integer> amounts = new ArrayList<Integer>();
-
-                Log.println(Log.DEBUG, "value", "value of amounts: " + amounts.toString());
-
 
                 if(shelves != null) {
                     for (int j = 0; j < shelves.length(); j++) {
-//                        shelvesList.add(shelves.getInt(j));
                         list.add(new ProductData(json.getInt("id"), json.getString("product_name"),
                                 json.getString("manufacturer"),
                                 0, shelves.getInt(j)));
                         MainActivity.queue.start();
-                        Log.println(Log.ERROR, "JSON", "connecting to url " + MainActivity.restEndpoint + "products-on-shelves/?shelf=" + shelves.getInt(j) +"&product=" + json.getInt("id"));
                         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
                                 (Request.Method.GET, MainActivity.restEndpoint + "products-on-shelves/?shelf=" + shelves.getInt(j) +"&product=" + json.getInt("id") , null, new Response.Listener<JSONArray>() {
                                     @Override
                                     public void onResponse(JSONArray response) {
                                         try {
-                                        Log.println(Log.INFO, "Request", "---------------------------- SUCCESS 2 ------------------------------");
-                                        Log.println(Log.INFO, "Request", "Response: " + response.toString());
                                         if (response.length() > 0) {
-                                            Log.println(Log.DEBUG, "value", "value before add: " + amounts.toString());
-                                            //TODO delete after debugging
-                                            amounts.add(Integer.parseInt(response.getJSONObject(0).getString("amount")));
-                                            Log.println(Log.DEBUG, "value", "value after add: " + amounts.toString());
                                             Iterator<ProductData> iterator = list.iterator();
                                             while (iterator.hasNext()) {
                                                 ProductData product = iterator.next();
                                                 if (product.getId() == response.getJSONObject(0).getInt("product") &&
                                                         product.getShelf() == response.getJSONObject(0).getInt("shelf")) {
-                                                    Log.println(Log.DEBUG, "product before: ", "product: id=" + product.getId() +" amount="+ product.getAmount());
                                                     product.setAmount(response.getJSONObject(0).getInt("amount"));
-//                                                    product.setShelf(response.getJSONObject(0).getInt("shelf"));
-                                                    Log.println(Log.DEBUG, "product after", "product: id=" + product.getId() +" amount="+ product.getAmount());
                                                     adapter.notifyDataSetChanged();
-//                                                    break;
                                                 }
                                             }
                                         }
@@ -82,7 +60,7 @@ public class SearchResultFragment extends Fragment {
                                 }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        Log.println(Log.ERROR, "JSON error", error.getMessage());
+                                        Log.println(Log.ERROR, "JSON", error.getMessage());
                                         error.printStackTrace();
                                     }
                                 });

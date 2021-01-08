@@ -5,14 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapter.ViewHolder> {
     private ArrayList<ProductData> listData;
@@ -34,7 +31,6 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
         viewHolder.productNameTV.setText(myProductData.getName());
         viewHolder.manufacturerTV.setText(myProductData.getManufacturer());
         viewHolder.amountTV.setText(Integer.toString(myProductData.getAmount()));
-        Log.println(Log.DEBUG, "product", "name = " + myProductData.getName());
 
         viewHolder.deleteIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +56,9 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
         public TextView manufacturerTV;
         public TextView amountTV;
         public ImageView deleteIV;
-//        public RelativeLayout relativeLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            Log.println(Log.DEBUG, "product", "viewholder constructor");
             this.productNameTV = (TextView) itemView.findViewById(R.id.productNameTextView);
             this.manufacturerTV = (TextView) itemView.findViewById(R.id.manufacturerTextView);
             this.amountTV = (TextView) itemView.findViewById(R.id.amountTextView);

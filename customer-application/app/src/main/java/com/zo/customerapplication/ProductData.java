@@ -1,8 +1,5 @@
 package com.zo.customerapplication;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ProductData {
     private int id;
     private String name;

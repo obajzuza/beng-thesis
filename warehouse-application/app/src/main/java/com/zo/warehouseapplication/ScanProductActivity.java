@@ -12,9 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -86,15 +84,13 @@ public class ScanProductActivity extends AppCompatActivity {
         try {
             restEndpoint = new URL("http://192.168.0.115:8000/api/"); }
         catch (Exception e) {
-            Log.println(Log.ERROR, "exception", "Exception while conneting to restEndpoint");
+            Log.println(Log.ERROR, "RestEndpoint", "Exception while conneting to restEndpoint");
             e.printStackTrace();
         }
 
         // scanner initialization
         productCodeTV = (TextView) findViewById(R.id.productCodeTV);
         scanProduct = ScanProductActivity.this;
-        Log.println(Log.DEBUG, "activities", "Scan product activity started");
-        Log.println(Log.DEBUG, "activities", "gotten these values passed: ");
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 50);
@@ -105,7 +101,6 @@ public class ScanProductActivity extends AppCompatActivity {
         amountET = (EditText) findViewById(R.id.amountET);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         acceptBtn = (Button) findViewById(R.id.acceptBtn);
-//        deleteIV = (ImageView) findViewById(R.id.deleteIV);
 
         adapter = new ProductsListAdapter(productDataList);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listToAddRV);
@@ -121,7 +116,6 @@ public class ScanProductActivity extends AppCompatActivity {
                 scanProduct.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.println(Log.DEBUG, "SCAN", "decoded value: " + result.getText() + "\nof class: "+ result.getText().getClass());
                         productCode = result.getText();
                         setProductCodeTV(productCode);
                     }
@@ -143,8 +137,6 @@ public class ScanProductActivity extends AppCompatActivity {
                 JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, restEndpoint.toString() + "product/?code=" + productCode, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.println(Log.INFO, "Request", "---------------------------- SUCCESS ------------------------------");
-                        Log.println(Log.INFO, "Request", "Response: " + response.toString());
                         if (response.length() > 0) {
                             try {
                             JSONObject json = response.getJSONObject(0);
@@ -160,10 +152,8 @@ public class ScanProductActivity extends AppCompatActivity {
                                     break;
                                 }
                             }
-                            Log.println(Log.DEBUG, "product","adding product");
                             productDataList.add(data);
                             adapter.notifyDataSetChanged();
-                            Log.println(Log.DEBUG, "product","product added");
                             }
                             catch (Exception e) {
                                 Log.println(Log.ERROR, "JSON", "Error: " + e.getMessage());
@@ -201,14 +191,11 @@ public class ScanProductActivity extends AppCompatActivity {
                         json.put("product", data.getId());
                         json.put("shelf", shelfCode);
                         json.put("amount", data.getAmount());
-                        Log.println(Log.DEBUG, "json", "elements number " +  elementsNumber + " ok number " + okResponsesCounter + " error number " + errorResponsesCounter);
                         if (data.isExistsInShelf()) {
                             // PATCH
-                            Log.println(Log.DEBUG, "json", "PATCH connecting with " + restEndpoint.toString() + "products/" + data.getId() + "/" + shelfCode + "/");
                             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, restEndpoint.toString() + "products/" + data.getId() + "/" + shelfCode + "/", json, new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    Log.println(Log.DEBUG, "json", "1");
                                     okResponsesCounter++;
                                 }
                             }, new Response.ErrorListener() {
@@ -221,11 +208,9 @@ public class ScanProductActivity extends AppCompatActivity {
                             queue.add(request);
                         } else {
                             // PUT
-                            Log.println(Log.DEBUG, "json", "PUT connecting with " + restEndpoint.toString() + "products/" + data.getId() + "/" + shelfCode + "/");
                             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, restEndpoint.toString() + "products/" + data.getId() + "/" + shelfCode + "/", json, new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    Log.println(Log.DEBUG, "json", "3");
                                     okResponsesCounter++;
                                 }
                             }, new Response.ErrorListener() {
@@ -239,14 +224,12 @@ public class ScanProductActivity extends AppCompatActivity {
                         }
                     }
                 } catch (Exception e) {
-                    Intent failureIntent = new Intent();
+                    Intent failureIntent = new Intent(ScanProductActivity.this, FailActivity.class);
                     startActivity(failureIntent);
                     e.printStackTrace();
                 }
-
-                Log.println(Log.DEBUG, "json", "elements number " +  elementsNumber + " ok number " + okResponsesCounter + " error number " + errorResponsesCounter);
-
-                finish();
+                Intent successIntent = new Intent(ScanProductActivity.this, SuccessActivity.class);
+                startActivity(successIntent);
             }
         });
     }

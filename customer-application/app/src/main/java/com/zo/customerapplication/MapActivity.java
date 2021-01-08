@@ -15,20 +15,16 @@ public class MapActivity extends AppCompatActivity {
                 intent.putExtra("manufacturer", viewHolder.manufacturerTV.getText()); */
     private ImageView mapIV;
     private TextView productNameTV;
-    private TextView shelfTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        //TODO
         productNameTV = findViewById(R.id.productNameTV);
-        shelfTV = findViewById(R.id.shelfTV);
         mapIV = findViewById(R.id.mapIV);
         productNameTV.setText(getIntent().getStringExtra("product"));
         String shelf = getIntent().getStringExtra("shelf");
-        Log.println(Log.DEBUG, "extras", "shelf extra: " + shelf);
-        shelfTV.setText(shelf);
+
         switch (shelf) {
             case "1" :
                 Log.println(Log.DEBUG, "switch", "case: " + shelf);

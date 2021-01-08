@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +32,6 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
         viewHolder.productNameTV.setText(myProductData.getName());
         viewHolder.manufacturerTV.setText(myProductData.getManufacturer());
         viewHolder.amountTV.setText(Integer.toString(myProductData.getAmount()));
-//        viewHolder.shelfTV.setText(myProductData.getShelves().toString());
         viewHolder.shelfTV.setText(Integer.toString(myProductData.getShelf()));
 
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +40,6 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
                 Intent intent = new Intent(view.getContext(), MapActivity.class);
                 intent.putExtra("shelf", viewHolder.shelfTV.getText());
                 intent.putExtra("product", viewHolder.productNameTV.getText());
-//                intent.putExtra("manufacturer", viewHolder.manufacturerTV.getText());
                 view.getContext().startActivity(intent);
             }
         });
@@ -56,13 +53,11 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
         public TextView manufacturerTV;
         public TextView amountTV;
         public TextView shelfTV;
-//        public RelativeLayout relativeLayout;
         public LinearLayout linearLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
-//            this.relativeLayout = (RelativeLayout) itemView.findViewById(R.id.resultsRecyclerView);
             this.productNameTV = (TextView) itemView.findViewById(R.id.productNameTextView);
             this.manufacturerTV = (TextView) itemView.findViewById(R.id.manufacturerTextView);
             this.amountTV = (TextView) itemView.findViewById(R.id.amountTextView);

@@ -13,34 +13,16 @@
 
         <activity android:name=".ProductsActivity"></activity>
         <activity android:name=".MapActivity" />
-        <activity
-            android:name=".ShowMapActivity"
-            android:label="@string/title_activity_show_map"
-            android:theme="@style/AppTheme.NoActionBar" />
-<!--        <activity android:name=".SearchingActivity">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.SEARCH" />-->
-<!--            </intent-filter>-->
 
-<!--            <meta-data-->
-<!--                android:name="android.app.searchable"-->
-<!--                android:resource="@xml/searchable" />-->
-<!--        </activity>-->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- android:value=".Activity" enables the search dialog to send searches to Activity -->
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-
-        <provider
-            android:authorities="com.zo.customerapplication"
-            android:name=".ProductsSuggestions" />
     </application>
-
 </manifest>

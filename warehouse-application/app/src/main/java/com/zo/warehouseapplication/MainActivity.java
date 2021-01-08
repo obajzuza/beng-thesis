@@ -33,11 +33,7 @@ public class MainActivity extends AppCompatActivity {
         codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
-                Log.println(Log.DEBUG, "SCAN", "decoded value: " + result.getText() + "\nof class: "+ result.getText().getClass());
                 beginScanningProducts(result.getText());
-//                Intent intent = new Intent(MainActivity.this, ScanProduct.class);
-//                intent.putExtra("result", result.getText());
-//                startActivity(intent);
             }
         });
         scannerView.setOnClickListener(new View.OnClickListener() {
